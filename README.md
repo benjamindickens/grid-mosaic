@@ -1,24 +1,19 @@
-# How to publish a npm package
-
-This is a quick tutorial on how you can publish your own npm package with minimal configuration. This will cover the basic setup, how npm works and how to ship good quality code.
-
-The full tutorial can be found at my [Medium blog](https://medium.com/@vmarchesin/how-to-publish-a-npm-package-in-four-steps-4344ab88e852).
-
-You'll need the following packages:
-
-* @babel/core
-* babel-loader
-* webpack
-* webpack-cli
-
-You can install all the dependencies by running:
+# Install
 
 ```bash
-npm i -D @babel/core babel-loader webpack webpack-cli
+npm install grid-mosaic
+```
+
+# Init
+
+```bash
+    new Mosaic(container, options)
 ```
 
 
-this.container = (typeof container === "string") ? document.querySelector(container) : container;
+# Options
+
+this.container =container;
         this.maxTries = options?.maxTries || 60;
         this.breakpoint = options?.breakpoint || 667;
         this.otherElements = options?.otherElements || [];
