@@ -4,6 +4,7 @@
 }
 
 .mosaic {
+  overflow: hidden;
   display: grid;
   position: relative;
   transition: opacity .5s ease;

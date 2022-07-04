@@ -7,113 +7,134 @@ npm install grid-mosaic
 # Initialization
 
 ```bash
-new Mosaic(".mosaic", options)
+new Mosaic(".mosaic" || node, options (optional))
 ```
-
-
-
 
 # Options
 
+This important because in further options if you choose sizes you enter only number,
+what is added at the end will depend on this option.
 ```bash
-  this.measure = options?.measure || "px";
+measure = "px" / "em" / "rem" || default: "px";
 ```
 
+The max amount of tries of calculation an item position.
 ```bash
-this.maxTries = number || default: 60 ;
-```
-the max amount of tries of calculation an item position
-
-```bash
-this.breakpoint = number || 667;
-```
-query value that applies data when recalculation needs to be done because of device view port;
-
-```bash
-otherElements = options?.otherElements || [];
+maxTries = number || default: 60 ;
 ```
 
+Query value that applies data when recalculation needs to be done because of device view port.
 ```bash
-bg = options?.bg === false ? false : true;
+breakpoint = number || 667;
 ```
 
+Takes array of objects to specify places occupied in current mosaic and places them.
 ```bash
-noSausagePatterns = options?.noSausagePatterns === false ? false : true;
+otherElements = [{
+        el: document.querySelector(".js-caption"),
+        coordinates: {
+            desktop: [5,1,2,7],
+            mobile: [1,2,4,3]
+          }
+        }, {....}] || [];
 ```
 
+Draw addition background items to take over all container.
 ```bash
-randomItems = options?.randomItems === false ? false : true;
-```
-    
-```bash
-gaps = {
-        desktop: options?.gaps?.desktop || 0,
-        mobile: options?.gaps?.mobile || 0,
-       };
+bg = true / false || default: true;
 ```
 
+Object of rules for background elements you may specify just main color for all.
+or it takes array of classes that will be implemented to elements in random sequence.
 ```bash
 bgStyles = {
-        background: options?.bgStyles?.background || null,
-        classes: options?.bgStyles?.classes || null
+        background: #bada55 || default : #FFFFFF,
+        classes: ["class-1", "class-2" ...] || null
         };
 ```
 
-```bash
-items = options?.items || document.querySelectorAll(".mosaic-item");
-```
-
+Specify rules for bg animation by default its running you might want to set delay to 0 or false to prevent.
+Effects - allow you to pass classes that will make the animations itself.
 ```bash
 bgAnimation = {
-            delay: options?.bgAnimation?.delay === false ? false : 8000,
-            effects: options?.bgAnimation?.effects || ["_illuminate-0", "_illuminate-1", "_illuminate-2", "_illuminate-3"]
+            delay: number / false || default : 8000,
+            effects: ["_slide-0", "slide-1" ...] || default : ["_illuminate-0", "_illuminate-1", "_illuminate-2", "_illuminate-3"]
         }
 ```
 
+Prevent items from a bad aspect ratio. 
+```bash
+noSausagePatterns = true / false || default : true;
+```
+
+Shuffle elements in container to get the random sequence after page reload.
+```bash
+randomItems = false / true || default : true;
+```
+
+Specify grid-gap, you can do in css
+```bash
+gaps = {
+        desktop: number || 0,
+        mobile: number || 0,
+       };
+```
+
+Specify items of mosaic.
+```bash
+items = [...] || document.querySelectorAll(".mosaic-item");
+```
+
+options of default change animation you might turn it off to set up delay as 0 or false.
 ```bash
 autoplay = {
-            delay: options?.autoplay?.delay === false ? false : 3500,
-            effect: options?.autoplay?.effect || "default",
-            preventDefaultHover: options?.autoplay?.preventDefaultHover || false,
-            opacityDefaultOutDuration: options?.autoplay?.opacityDefaultOutDuration || 500,
+            delay:  number / false || default : 3500,
+            effect: false / "default" || default : "default",
+            preventDefaultHover: true / false || default :  false,
+            opacityDefaultOutDuration: number || 500,
         };
 ```
-        
+
+Set dimension for grid container. Size is options that shows "min-width" and "height" of cell.
+default behavior that is max-width for cell is 1fr.If you want to prevent this set up "width" for container
 ```bash
 dimension = {
             desktop: {
-                cols: options?.dimension?.desktop?.cols || 5,
-                rows: options?.dimension?.desktop?.rows || 5,
-                size: options?.dimension?.desktop?.size || 90
+                cols: number || default : 5,
+                rows: number || default : 5,
+                size: number || default : 90
             },
             mobile: {
-                cols: options?.dimension?.mobile?.cols || 3,
-                rows: options?.dimension?.mobile?.rows || 6,
-                size: options?.dimension?.mobile?.size || 90
+                cols: number || default : 3,
+                rows: number || default : 6,
+                size: number || default : 90
             },
         };
 ```
 
+Max amount of items that might be shown in one round of animation.
 ```bash
 maxItems = {
-            desktop: options?.maxItems?.desktop || null,
-            mobile: options?.maxItems?.mobile || null,
+            desktop: number || null,
+            mobile: number || null,
         };
 ```
 
+Max size of items.
 ```bash
 maxSize = {
             desktop: {
-                y: options?.maxSize?.desktop?.y || 3,
-                x: options?.maxSize?.desktop?.x || 3,
+                y: number || 3,
+                x: onumber || 3,
             },
             mobile: {
-                y: options?.maxSize?.mobile?.y || 3,
-                x: options?.maxSize?.mobile?.x || 3,
+                y: number || 3,
+                x: number || 3,
             }
         };
 ```
 
+Here you might add your custom functions.
 ```bash
 this.on = {
             mouseEnter: options?.on?.mouseEnter?.bind(this) || null,
