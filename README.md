@@ -12,22 +12,26 @@ new Mosaic(".mosaic" || node, options (optional))
 
 # Options
 
+###### measure
 This important because in further options if you choose sizes you enter only number,
 what is added at the end will depend on this option.
 ```bash
 measure = "px" / "em" / "rem" || default: "px";
 ```
 
+###### maxTries
 The max amount of tries of calculation an item position.
 ```bash
 maxTries = number || default: 60 ;
 ```
 
+###### breakpoint
 Query value that applies data when recalculation needs to be done because of device view port.
 ```bash
 breakpoint = number || 667;
 ```
 
+###### otherElements
 Takes array of objects to specify places occupied in current mosaic and places them.
 ```bash
 otherElements = [{
@@ -39,11 +43,13 @@ otherElements = [{
         }, {....}] || [];
 ```
 
+###### bg
 Draw addition background items to take over all container.
 ```bash
 bg = true / false || default: true;
 ```
 
+###### bgStyles
 Object of rules for background elements you may specify just main color for all.
 or it takes array of classes that will be implemented to elements in random sequence.
 ```bash
@@ -53,6 +59,7 @@ bgStyles = {
         };
 ```
 
+###### bgAnimation
 Specify rules for bg animation by default its running you might want to set delay to 0 or false to prevent.
 Effects - allow you to pass classes that will make the animations itself.
 ```bash
@@ -62,16 +69,19 @@ bgAnimation = {
         }
 ```
 
+###### noSausagePatterns
 Prevent items from a bad aspect ratio. 
 ```bash
 noSausagePatterns = true / false || default : true;
 ```
 
+###### randomItems
 Shuffle elements in container to get the random sequence after page reload.
 ```bash
 randomItems = false / true || default : true;
 ```
 
+###### gaps
 Specify grid-gap, you can do in css
 ```bash
 gaps = {
@@ -80,11 +90,13 @@ gaps = {
        };
 ```
 
+###### items
 Specify items of mosaic.
 ```bash
 items = [...] || document.querySelectorAll(".mosaic-item");
 ```
 
+###### autoplay
 options of default change animation you might turn it off to set up delay as 0 or false.
 ```bash
 autoplay = {
@@ -95,6 +107,7 @@ autoplay = {
         };
 ```
 
+###### dimension
 Set dimension for grid container. Size is options that shows "min-width" and "height" of cell.
 default behavior that is max-width for cell is 1fr.If you want to prevent this set up "width" for container
 ```bash
@@ -112,6 +125,7 @@ dimension = {
         };
 ```
 
+###### maxItems
 Max amount of items that might be shown in one round of animation.
 ```bash
 maxItems = {
@@ -120,6 +134,7 @@ maxItems = {
         };
 ```
 
+###### maxSize
 Max size of items.
 ```bash
 maxSize = {
@@ -134,12 +149,13 @@ maxSize = {
         };
 ```
 
+###### on
 Here you might add your custom functions.
 ```bash
-this.on = {
-            mouseEnter: options?.on?.mouseEnter?.bind(this) || null,
-            mouseLeave: options?.on?.mouseLeave?.bind(this) || null,
-            beforeInit: options?.on?.beforeInit?.bind(this) || null,
-            afterInit: options?.on?.afterInit?.bind(this) || null
+on = {
+            mouseEnter: () => { your code ...} || null,
+            mouseLeave: func || null,
+            beforeInit: func || null,
+            afterInit: func || null
         }
 ```
