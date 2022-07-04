@@ -10,6 +10,11 @@ npm install grid-mosaic
 new Mosaic(".mosaic" || node, options (optional))
 ```
 
+# Demo
+
+https://benjamindickens.github.io/grid-mosaic-demo/
+
+
 # Options
 
 ###### measure
