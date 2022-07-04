@@ -33,7 +33,7 @@ maxTries = number || default: 60 ;
 ###### breakpoint
 Query value that applies data when recalculation needs to be done because of device view port.
 ```bash
-breakpoint = number || 667;
+breakpoint = number || default: 667;
 ```
 
 ###### otherElements
@@ -45,7 +45,7 @@ otherElements = [{
             desktop: [5,1,2,7],
             mobile: [1,2,4,3]
           }
-        }, {....}] || [];
+        }, {....}] || default: [];
 ```
 
 ###### bg
@@ -60,7 +60,7 @@ or it takes array of classes that will be implemented to elements in random sequ
 ```bash
 bgStyles = {
         background: #bada55 || default : #FFFFFF,
-        classes: ["class-1", "class-2" ...] || null
+        classes: ["class-1", "class-2" ...] || default: null
         };
 ```
 
@@ -90,15 +90,15 @@ randomItems = false / true || default : true;
 Specify grid-gap, you can do in css
 ```bash
 gaps = {
-        desktop: number || 0,
-        mobile: number || 0,
+        desktop: number || default: 0,
+        mobile: number || default: 0,
        };
 ```
 
 ###### items
 Specify items of mosaic.
 ```bash
-items = [...] || document.querySelectorAll(".mosaic-item");
+items = [...] || default: document.querySelectorAll(".mosaic-item");
 ```
 
 ###### autoplay
@@ -108,7 +108,7 @@ autoplay = {
             delay:  number / false || default : 3500,
             effect: false / "default" || default : "default",
             preventDefaultHover: true / false || default :  false,
-            opacityDefaultOutDuration: number || 500,
+            opacityDefaultOutDuration: number || default: 500,
         };
 ```
 
@@ -134,8 +134,8 @@ dimension = {
 Max amount of items that might be shown in one round of animation.
 ```bash
 maxItems = {
-            desktop: number || null,
-            mobile: number || null,
+            desktop: number || default: null,
+            mobile: number || default: null,
         };
 ```
 
@@ -144,12 +144,12 @@ Max size of items.
 ```bash
 maxSize = {
             desktop: {
-                y: number || 3,
-                x: onumber || 3,
+                y: number || default: 3,
+                x: onumber || default: 3,
             },
             mobile: {
-                y: number || 3,
-                x: number || 3,
+                y: number || default: 3,
+                x: number || default: 3,
             }
         };
 ```
@@ -158,9 +158,9 @@ maxSize = {
 Here you might add your custom functions.
 ```bash
 on = {
-            mouseEnter: () => { your code ...} || null,
-            mouseLeave: func || null,
-            beforeInit: func || null,
-            afterInit: func || null
+            mouseEnter: () => { your code ...} || default: null,
+            mouseLeave: func || default: null,
+            beforeInit: func || default: null,
+            afterInit: func || default: null
         }
 ```
