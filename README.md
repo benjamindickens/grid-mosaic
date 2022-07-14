@@ -7,8 +7,8 @@ npm install grid-mosaic
 # Initialization
 
 ###### HTML
-1) Add container to your page with class "mosaic".
-2) Add items with class "mosaic-item" to the container.
+1) Add a container to your page with "mosaic" class.
+2) Add items with "mosaic-item" class to the container.
 
 ```bash
 
@@ -22,7 +22,7 @@ npm install grid-mosaic
     
      <img src="https://picsum.photos/200" alt="photo">
      
-    or you can add any addition html that might be needed
+    or you can add any additional html if needed
     
      <a href="/" target="_blank" class="mosaic-item">
         <img src="https://picsum.photos/200" alt="photo">
@@ -36,10 +36,14 @@ npm install grid-mosaic
 ```
 
 ###### JS
-3) Initialise the app in your js file with default set up or modify it in option object.
+3) Initialize the app in your js file with default set up or modify it manually.
 
 ```bash
-new Mosaic(".mosaic" || node, options (optional))
+new Mosaic(".mosaic")
+
+or with option object
+
+new Mosaic(".mosaic", options)
 ```
 
 # Demo
@@ -50,29 +54,28 @@ https://benjamindickens.github.io/grid-mosaic-demo/
 
 # Options
 
-###### measure
-This important because in further options if you choose sizes you enter only number,
-what is added at the end will depend on this option.
+###### measurement units
+Choose a measurement unit you are going to use in your app.
 ```bash
-measure = "px" / "em" / "rem" || default: "px";
+measure: "px" / "em" / "rem" || default: "px";
 ```
 
 ###### maxTries
 The max amount of tries of calculation an item position.
 ```bash
-maxTries = number || default: 60 ;
+maxTries: number || default: 60 ;
 ```
 
 ###### breakpoint
-Query value that applies data when recalculation needs to be done because of device view port.
+The value of @media.
 ```bash
-breakpoint = number || default: 667;
+breakpoint: number || default: 667;
 ```
 
 ###### otherElements
 Takes array of objects to specify places occupied in current mosaic and places them.
 ```bash
-otherElements = [{
+otherElements: [{
         el: document.querySelector(".js-caption"),
         coordinates: {
             desktop: [5,1,2,7],
@@ -82,26 +85,25 @@ otherElements = [{
 ```
 
 ###### bg
-Draw addition background items to take over all container.
+Draw additional background items to take over all container.
 ```bash
-bg = true / false || default: true;
+bg: true / false || default: true;
 ```
 
 ###### bgStyles
-Object of rules for background elements you may specify just main color for all.
-or it takes array of classes that will be implemented to elements in random sequence.
+You may specify main color for background elements or pass the array of classes that will be implemented to elements in random sequence.
 ```bash
-bgStyles = {
+bgStyles: {
         background: #bada55 || default : #FFFFFF,
         classes: ["class-1", "class-2" ...] || default: null
         };
 ```
 
 ###### bgAnimation
-Specify rules for bg animation by default its running you might want to set delay to 0 or false to prevent.
-Effects - allow you to pass classes that will make the animations itself.
+Specify the rules for bg animation. It is activated by default. If you want to disable it set "0" or "false".
+Effects - allow you to pass classes that will perform the animation.
 ```bash
-bgAnimation = {
+bgAnimation: {
             delay: number / false || default : 8000,
             effects: ["_slide-0", "slide-1" ...] || default : ["_illuminate-0", "_illuminate-1", "_illuminate-2", "_illuminate-3"]
         }
@@ -110,46 +112,45 @@ bgAnimation = {
 ###### noSausagePatterns
 Prevent items from a bad aspect ratio. 
 ```bash
-noSausagePatterns = true / false || default : true;
+noSausagePatterns: true / false || default : true;
 ```
 
 ###### randomItems
-Shuffle elements in container to get the random sequence after page reload.
+Shuffle the elements in the container to get a random sequence after the page reload.
 ```bash
-randomItems = false / true || default : true;
+randomItems: false / true || default : true;
 ```
 
 ###### gaps
-Specify grid-gap, you can do in css
+Specify a grid-gap. (You can do it in css.)
 ```bash
-gaps = {
+gaps: {
         desktop: number || default: 0,
         mobile: number || default: 0,
        };
 ```
 
 ###### items
-Specify items of mosaic.
+Specify the items of the mosaic.
 ```bash
-items = [...] || default: document.querySelectorAll(".mosaic-item");
+items: [...] || default: document.querySelectorAll(".mosaic-item");
 ```
 
 ###### autoplay
-options of default change animation you might turn it off to set up delay as 0 or false.
+The settings of the animation (that changes the position of the elements within the container) delay.  It is activated by default. If you want to disable it set "0" or "false".
 ```bash
-autoplay = {
+autoplay: {
             delay:  number / false || default : 3500,
-            effect: false / "default" || default : "default",
             preventDefaultHover: true / false || default :  false,
             opacityDefaultOutDuration: number || default: 500,
         };
 ```
 
 ###### dimension
-Set dimension for grid container. Size is options that shows "min-width" and "height" of cell.
-default behavior that is max-width for cell is 1fr.If you want to prevent this set up "width" for container
+Set dimensions for grid container. The value "size" specifies "min-width" and "height" of cells.
+The default value of max-width for each cell is 1fr. If you don't want the mosaic to stretch for the whole page, specify the "width" value of the container in css.
 ```bash
-dimension = {
+dimension: {
             desktop: {
                 cols: number || default : 5,
                 rows: number || default : 5,
@@ -164,9 +165,9 @@ dimension = {
 ```
 
 ###### maxItems
-Max amount of items that might be shown in one round of animation.
+Max amount of items that is shown in one round of animation.
 ```bash
-maxItems = {
+maxItems: {
             desktop: number || default: null,
             mobile: number || default: null,
         };
@@ -175,7 +176,7 @@ maxItems = {
 ###### maxSize
 Max size of items.
 ```bash
-maxSize = {
+maxSize: {
             desktop: {
                 y: number || default: 3,
                 x: onumber || default: 3,
@@ -188,9 +189,9 @@ maxSize = {
 ```
 
 ###### on
-Here you might add your custom functions.
+Here you can add your custom functions.
 ```bash
-on = {
+on: {
             mouseEnter: () => { your code ...} || default: null,
             mouseLeave: func || default: null,
             beforeInit: func || default: null,
