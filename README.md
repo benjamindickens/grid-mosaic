@@ -6,6 +6,14 @@ npm install grid-mosaic
 
 # Initialization
 
+###### HTML
+
+```bash
+<div class="mosaic"></div>
+```
+
+###### JS
+
 ```bash
 new Mosaic(".mosaic" || node, options (optional))
 ```
@@ -13,7 +21,6 @@ new Mosaic(".mosaic" || node, options (optional))
 # Demo
 
 https://benjamindickens.github.io/grid-mosaic-demo/
-
 
 # Options
 
