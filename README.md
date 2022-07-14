@@ -1,3 +1,9 @@
+# Demo
+
+![demo.png](demo.png)
+
+https://benjamindickens.github.io/grid-mosaic-demo/
+
 # Installation
 
 ```bash
@@ -45,12 +51,6 @@ or with option object
 
 new Mosaic(".mosaic", options)
 ```
-
-# Demo
-
-![demo.png](demo.png)
-
-https://benjamindickens.github.io/grid-mosaic-demo/
 
 # Options
 
