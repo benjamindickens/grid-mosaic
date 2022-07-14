@@ -10,6 +10,10 @@
   transition: opacity .5s ease;
   opacity: 0;
   visibility: hidden;
+  
+  & a {
+    display: block;
+  }
 
   &.mosaic-init {
     visibility: visible;

@@ -7,12 +7,36 @@ npm install grid-mosaic
 # Initialization
 
 ###### HTML
+1) Add container to your page with class "mosaic".
+2) Add items with class "mosaic-item" to the container.
 
 ```bash
-<div class="mosaic"></div>
+
+<div class="mosaic">
+
+    <a href="/test" class="mosaic-item">
+        <img src="https://picsum.photos/200" alt="photo">
+    </a>
+    
+    or 
+    
+     <img src="https://picsum.photos/200" alt="photo">
+     
+    or you can add any addition html that might be needed
+    
+     <a href="/" target="_blank" class="mosaic-item">
+        <img src="https://picsum.photos/200" alt="photo">
+        <div class="mosaic__tooltip">
+            <div class="mosaic__tooltip-title">Title</div>
+            <div class="mosaic__tooltip-content">Content</div>
+        </div>
+    </a>
+
+</div>
 ```
 
 ###### JS
+3) Initialise the app in your js file with default set up or modify it in option object.
 
 ```bash
 new Mosaic(".mosaic" || node, options (optional))
