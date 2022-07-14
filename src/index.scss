@@ -22,7 +22,7 @@
     background-size: cover;
     background-repeat: no-repeat;
     transition: all .5s ease;
-    background: var(--mosaic-default-bg-color);
+    background-color: var(--mosaic-default-bg-color);
     z-index: -1;
 
     &._hidden {

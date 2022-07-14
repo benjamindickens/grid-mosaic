@@ -44,6 +44,8 @@ new Mosaic(".mosaic" || node, options (optional))
 
 # Demo
 
+![demo.png](demo.png)
+
 https://benjamindickens.github.io/grid-mosaic-demo/
 
 # Options
