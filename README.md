@@ -26,7 +26,7 @@ npm install grid-mosaic
     
     or 
     
-     <img src="https://picsum.photos/200" alt="photo">
+     <img class="mosaic-item" src="https://picsum.photos/200" alt="photo">
      
     or you can add any additional html if needed
     
@@ -67,7 +67,7 @@ maxTries: number || default: 60 ;
 ```
 
 ###### breakpoint
-The value of @media.
+The value of @media (in pixels).
 ```bash
 breakpoint: number || default: 667;
 ```
