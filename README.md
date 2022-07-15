@@ -1,7 +1,5 @@
 # Demo
 
-![demo.png](demo.png)
-
 https://benjamindickens.github.io/grid-mosaic-demo/
 
 # Installation
