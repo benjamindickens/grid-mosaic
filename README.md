@@ -62,7 +62,7 @@ measure: "px" / "em" / "rem" || default: "px";
 
 ###### dimension
 Set dimensions for grid container. The value "size" specifies "min-width" and "height" of cells.
-It applies styles to container "grid-template: repeat(5, 90px/rem/em) / repeat(5, minmax(90px/rem/em, 1fr))". To set measurement unit use option "measure".
+It applies necessary styles to the container. By default, for desktop "grid-template: repeat(5, 90px/rem/em) / repeat(5, minmax(90px/rem/em, 1fr))". To set the correct measurement unit use option "measure".
 The default value of max-width for each cell is 1fr. If you don't want the mosaic to stretch for the whole page, specify the "width" value of the container in css.
 ```bash
 dimension: {
