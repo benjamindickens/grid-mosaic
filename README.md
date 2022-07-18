@@ -47,7 +47,7 @@ import Mosaic from "grid-mosaic";
 
 new Mosaic(".mosaic")
 
-or with option object
+or with an option object
 
 new Mosaic(".mosaic", options)
 ```
