@@ -43,6 +43,8 @@ npm install grid-mosaic
 3) Initialize the app in your js file with default set up or modify it manually.
 
 ```bash
+import Mosaic from "grid-mosaic";
+
 new Mosaic(".mosaic")
 
 or with option object
@@ -58,20 +60,53 @@ Choose a measurement unit you are going to use in your app.
 measure: "px" / "em" / "rem" || default: "px";
 ```
 
-###### maxTries
-The max amount of tries of calculation an item position.
+###### dimension
+Set dimensions for grid container. The value "size" specifies "min-width" and "height" of cells.
+It applies styles to container "grid-template: repeat(5, 90px/rem/em) / repeat(5, minmax(90px/rem/em, 1fr))". To set measurement unit use option "measure".
+The default value of max-width for each cell is 1fr. If you don't want the mosaic to stretch for the whole page, specify the "width" value of the container in css.
 ```bash
-maxTries: number || default: 60 ;
+dimension: {
+            desktop: {
+                cols: number || default : 5,
+                rows: number || default : 5,
+                size: number || default : 90
+            },
+            mobile: {
+                cols: number || default : 3,
+                rows: number || default : 6,
+                size: number || default : 90
+            },
+        };
 ```
 
-###### breakpoint
-The value of @media (in pixels).
+###### maxSize
+It means max amount of cells one item can occupy.
+
 ```bash
-breakpoint: number || default: 667;
+maxSize: {
+            desktop: {
+                y: number || default: 3,
+                x: onumber || default: 3,
+            },
+            mobile: {
+                y: number || default: 3,
+                x: number || default: 3,
+            }
+        };
+```
+
+###### maxItems
+Max amount of items that are shown in the container. Others will appear through the animation.
+```bash
+maxItems: {
+            desktop: number || default: null,
+            mobile: number || default: null,
+        };
 ```
 
 ###### otherElements
 Takes array of objects to specify places occupied in current mosaic and places them.
+The example below place the el into container by assigning the rule in format "grid-area: 5 / 1 / span 2 / span 7"
 ```bash
 otherElements: [{
         el: document.querySelector(".js-caption"),
@@ -144,48 +179,6 @@ autoplay: {
         };
 ```
 
-###### dimension
-Set dimensions for grid container. The value "size" specifies "min-width" and "height" of cells.
-The default value of max-width for each cell is 1fr. If you don't want the mosaic to stretch for the whole page, specify the "width" value of the container in css.
-```bash
-dimension: {
-            desktop: {
-                cols: number || default : 5,
-                rows: number || default : 5,
-                size: number || default : 90
-            },
-            mobile: {
-                cols: number || default : 3,
-                rows: number || default : 6,
-                size: number || default : 90
-            },
-        };
-```
-
-###### maxItems
-Max amount of items that is shown in one round of animation.
-```bash
-maxItems: {
-            desktop: number || default: null,
-            mobile: number || default: null,
-        };
-```
-
-###### maxSize
-Max size of items.
-```bash
-maxSize: {
-            desktop: {
-                y: number || default: 3,
-                x: onumber || default: 3,
-            },
-            mobile: {
-                y: number || default: 3,
-                x: number || default: 3,
-            }
-        };
-```
-
 ###### on
 Here you can add your custom functions.
 ```bash
@@ -195,4 +188,16 @@ on: {
             beforeInit: func || default: null,
             afterInit: func || default: null
         }
+```
+
+###### maxTries
+The max amount of tries of calculation an item position.
+```bash
+maxTries: number || default: 60 ;
+```
+
+###### breakpoint
+The value of @media (in pixels).
+```bash
+breakpoint: number || default: 667;
 ```
