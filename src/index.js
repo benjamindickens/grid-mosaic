@@ -385,7 +385,7 @@ export default class {
         }
 
         this.beforeInit = async () => {
-            document.documentElement.style.setProperty('--mosaic-breakpoint', this.breakpoint);
+            document.documentElement.style.setProperty('--mosaic-breakpoint', this.breakpoint + "px");
             this.on.beforeInit && this.on.beforeInit();
 
         }
