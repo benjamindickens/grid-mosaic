@@ -16,6 +16,12 @@
     opacity: 1;
   }
 
+  & ._hidden {
+    @media (max-width: var(--mosaic-breakpoint)) {
+      display: none;
+    }
+  }
+
   &-bg {
     cursor: pointer;
     position: relative;
@@ -24,12 +30,6 @@
     transition: all .5s ease;
     background-color: var(--mosaic-default-bg-color);
     z-index: -1;
-
-    &._hidden {
-      @media (max-width: var(--mosaic-breakpoint)) {
-        display: none;
-      }
-    }
 
     &._illuminate-0 {
       animation: back-illuminate 2s linear infinite;
