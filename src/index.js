@@ -19,7 +19,7 @@ export default class {
             background: options?.bgStyles?.background || null,
             classes: options?.bgStyles?.classes || null
         };
-        this.items = options?.items || document.querySelectorAll(".mosaic-item");
+        this.items = options?.items || this.container.querySelectorAll(".mosaic-item");
         this.nextToShow = (this.items.length - 1 > 0) ? this.items.length - 1 : 0;
         this.bgAnimation = {
             delay: options?.bgAnimation?.delay === false ? false : 8000,
@@ -133,7 +133,7 @@ export default class {
 
             container.insertAdjacentHTML("afterbegin", html.join(""))
 
-            this.bg = document.querySelectorAll(".mosaic-bg");
+            this.bg = this.container.querySelectorAll(".mosaic-bg");
 
         };
 
