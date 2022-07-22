@@ -406,7 +406,7 @@ export default class {
             await this.updatePosition(device)
             await this.initAutoplay()
             this.setMouseListeners();
-            window.onresize = this.debounceDeviceChange(500);
+            window.addEventListener("resize", this.debounceDeviceChange(500));
         };
 
         this.start = async (device) => {
