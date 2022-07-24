@@ -111,7 +111,16 @@ export default class {
             }
         }
 
+        this.updateCurrentDeviceStatus = (device) => {
+            if (device === "desktop") {
+                this.container.classList.remove("_mosaic-mobile")
+            } else {
+                this.container.classList.add("_mosaic-mobile")
+            }
+        }
+
         this.setGrid = (device, init = false) => {
+            this.updateCurrentDeviceStatus(device);
             !init && this.resetImgPosition();
             this.container.style.gridTemplate = `repeat(${this.dimension[device].rows}, ${this.dimension[device].size + this.measure}) / repeat(${this.dimension[device].cols}, minmax(${this.dimension[device].size + this.measure}, 1fr))`;
             if (this.gaps[device] || this.gaps[device] === 0) this.container.style.gap = this.gaps[device] + this.measure;
@@ -385,9 +394,7 @@ export default class {
         }
 
         this.beforeInit = async () => {
-            document.documentElement.style.setProperty('--mosaic-breakpoint', this.breakpoint + "px");
             this.on.beforeInit && this.on.beforeInit();
-
         }
 
         this.afterInit = async () => {

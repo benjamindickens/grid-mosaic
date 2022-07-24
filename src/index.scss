@@ -1,6 +1,5 @@
 :root {
   --mosaic-default-bg-color: #FFFFFF;
-  --mosaic-breakpoint: 667px;
 }
 
 .mosaic {
@@ -16,10 +15,8 @@
     opacity: 1;
   }
 
-  & ._hidden {
-    @media (max-width: var(--mosaic-breakpoint)) {
-      display: none;
-    }
+  &._mosaic-mobile ._hidden {
+    display: none;
   }
 
   &-bg {
