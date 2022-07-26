@@ -66,363 +66,364 @@ export default class {
             afterInit: options?.on?.afterInit?.bind(this) || null
         }
 
-        this.detectDevice = () => {
-            return (window.innerWidth < this.breakpoint) ? "mobile" : "desktop";
-        };
+        this.start(this.detectDevice())
+    };
 
-        this.randomNum = (max, min = 0) => {
-            return Math.floor(Math.random() * max) + min
-        };
+    detectDevice = () => {
+        return (window.innerWidth < this.breakpoint) ? "mobile" : "desktop";
+    };
 
-        this.shuffleNodes = (nodes) => {
-            const array = [...nodes].slice();
-            let currentIndex = array.length, randomIndex;
-            while (currentIndex !== 0) {
-                randomIndex = Math.floor(Math.random() * currentIndex);
-                currentIndex--;
-                [array[currentIndex], array[randomIndex]] = [
-                    array[randomIndex], array[currentIndex]];
-            }
-            return array;
+    randomNum = (max, min = 0) => {
+        return Math.floor(Math.random() * max) + min
+    };
+
+    shuffleNodes = (nodes) => {
+        const array = [...nodes].slice();
+        let currentIndex = array.length, randomIndex;
+        while (currentIndex !== 0) {
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex--;
+            [array[currentIndex], array[randomIndex]] = [
+                array[randomIndex], array[currentIndex]];
         }
+        return array;
+    };
 
-        this.setBgItems = (device) => {
-            let row = 1,
-                column = 1,
-                i = 0;
-            while (i < this.bg.length) {
-                if (column > this.dimension[device].cols) {
-                    row++;
-                    column = 1;
-                }
-                this.bg[i].style.gridArea = `${row} / ${column} / span 1 / span 1`;
-                column++;
-                i++;
+    setBgItems = (device) => {
+        let row = 1,
+            column = 1,
+            i = 0;
+        while (i < this.bg.length) {
+            if (column > this.dimension[device].cols) {
+                row++;
+                column = 1;
             }
-        };
-
-        this.updateMaxItems = () => {
-            for (const key in this.maxItems) {
-                if (this.maxItems[key] >= this.items.length) {
-                    this.maxItems[key] = this.items.length;
-                } else if (this.maxItems[key] === null) {
-                    this.maxItems[key] = this.items.length;
-                }
-            }
+            this.bg[i].style.gridArea = `${row} / ${column} / span 1 / span 1`;
+            column++;
+            i++;
         }
+    };
 
-        this.updateCurrentDeviceStatus = (device) => {
-            if (device === "desktop") {
-                this.container.classList.remove("_mosaic-mobile")
-            } else {
-                this.container.classList.add("_mosaic-mobile")
+    updateMaxItems = () => {
+        for (const key in this.maxItems) {
+            if (this.maxItems[key] >= this.items.length) {
+                this.maxItems[key] = this.items.length;
+            } else if (this.maxItems[key] === null) {
+                this.maxItems[key] = this.items.length;
             }
         }
+    };
 
-        this.setGrid = (device, init = false) => {
-            this.updateCurrentDeviceStatus(device);
-            !init && this.resetImgPosition();
-            this.container.style.gridTemplate = `repeat(${this.dimension[device].rows}, ${this.dimension[device].size + this.measure}) / repeat(${this.dimension[device].cols}, minmax(${this.dimension[device].size + this.measure}, 1fr))`;
-            if (this.gaps[device] || this.gaps[device] === 0) this.container.style.gap = this.gaps[device] + this.measure;
-            this.setBgItems(device);
+    updateCurrentDeviceStatus = (device) => {
+        if (device === "desktop") {
+            this.container.classList.remove("_mosaic-mobile")
+        } else {
+            this.container.classList.add("_mosaic-mobile")
         }
+    };
 
-        this.createBgItems = async () => {
-            if (!this.bg) return;
+    setGrid = (device, init = false) => {
+        this.updateCurrentDeviceStatus(device);
+        !init && this.resetImgPosition();
+        this.container.style.gridTemplate = `repeat(${this.dimension[device].rows}, ${this.dimension[device].size + this.measure}) / repeat(${this.dimension[device].cols}, minmax(${this.dimension[device].size + this.measure}, 1fr))`;
+        if (this.gaps[device] || this.gaps[device] === 0) this.container.style.gap = this.gaps[device] + this.measure;
+        this.setBgItems(device);
+    };
 
-            if (this.bgStyles.background) document.documentElement.style.setProperty('--mosaic-default-bg-color', this.bgStyles.background);
+    createBgItems = async () => {
+        if (!this.bg) return;
 
-            const maxCells = this.dimension.desktop.cols * this.dimension.desktop.rows;
-            const mobCells = this.dimension.mobile.cols * this.dimension.mobile.rows;
-            let html = [];
-            do {
-                const isHidden = html.length >= mobCells ? "_hidden" : "";
-                html.push(this.createBg(isHidden));
-            } while (html.length < maxCells)
+        if (this.bgStyles.background) document.documentElement.style.setProperty('--mosaic-default-bg-color', this.bgStyles.background);
 
-            container.insertAdjacentHTML("afterbegin", html.join(""))
+        const maxCells = this.dimension.desktop.cols * this.dimension.desktop.rows;
+        const mobCells = this.dimension.mobile.cols * this.dimension.mobile.rows;
+        let html = [];
+        do {
+            const isHidden = html.length >= mobCells ? "_hidden" : "";
+            html.push(this.createBg(isHidden));
+        } while (html.length < maxCells)
 
-            this.bg = this.container.querySelectorAll(".mosaic-bg");
+        this.container.insertAdjacentHTML("afterbegin", html.join(""))
 
-        };
+        this.bg = this.container.querySelectorAll(".mosaic-bg");
 
-        this.createBg = (hidden) => {
-            const randomClass = this.bgStyles.classes ? this.bgStyles.classes[this.randomNum(this.bgStyles.classes.length, 0)] : "";
-            return `<div class="js-bg mosaic-bg ${randomClass} ${hidden}"></div>`
-        }
+    };
 
-        this.shuffleItems = (items) => {
-            if (this.randomItems) this.items = this.shuffleNodes(items);
-            else this.items = [...this.items];
-        };
+    createBg = (hidden) => {
+        const randomClass = this.bgStyles.classes ? this.bgStyles.classes[this.randomNum(this.bgStyles.classes.length, 0)] : "";
+        return `<div class="js-bg mosaic-bg ${randomClass} ${hidden}"></div>`
+    };
 
-        this.initBgAnimation = () => {
-            if (!this.bgAnimation.delay || !this.bg) return;
+    shuffleItems = (items) => {
+        if (this.randomItems) this.items = this.shuffleNodes(items);
+        else this.items = [...this.items];
+    };
 
+    initBgAnimation = () => {
+        if (!this.bgAnimation.delay || !this.bg) return;
+
+        this.setBgAnimation();
+        setInterval(() => {
             this.setBgAnimation();
-            setInterval(() => {
-                this.setBgAnimation();
-            }, this.bgAnimation.delay)
-        };
+        }, this.bgAnimation.delay)
+    };
 
-        this.setBgAnimation = () => {
-            this.bg.forEach((item, index) => {
-                const randomIndex = this.randomNum(12, 5);
-                if (index % randomIndex === 0) {
-                    const randomAnimation = this.bgAnimation.effects[this.randomNum(this.bgAnimation.effects.length, 0)];
-                    item.classList.add(randomAnimation);
-                } else {
-                    item.classList.remove(...this.bgAnimation.effects);
-                }
-            })
-        };
-
-        this.placeInGrid = (el, pattern) => {
-            const {yStart, xStart, yEnd, xEnd} = pattern;
-            el.style.gridArea = `${yStart} / ${xStart} / span ${yEnd}/ span ${xEnd}`
-        };
-
-        this.getCoordinates = (el, pattern, device, forOthers = false) => {
-
-            const position = {
-                yStart: forOthers ? pattern[0] : this.randomNum(this.dimension[device].rows - pattern.y, 1),
-                xStart: forOthers ? pattern[1] : this.randomNum(this.dimension[device].cols - pattern.x, 1),
-                yEnd: forOthers ? pattern[2] : pattern.y,
-                xEnd: forOthers ? pattern[3] : pattern.x,
+    setBgAnimation = () => {
+        this.bg.forEach((item, index) => {
+            const randomIndex = this.randomNum(12, 5);
+            if (index % randomIndex === 0) {
+                const randomAnimation = this.bgAnimation.effects[this.randomNum(this.bgAnimation.effects.length, 0)];
+                item.classList.add(randomAnimation);
+            } else {
+                item.classList.remove(...this.bgAnimation.effects);
             }
-            const coordinates = [];
-            let rows = (position.yStart + position.yEnd) - position.yStart;
-            let cols = (position.xStart + position.xEnd) - position.xStart;
+        })
+    };
+
+    placeInGrid = (el, pattern) => {
+        const {yStart, xStart, yEnd, xEnd} = pattern;
+        el.style.gridArea = `${yStart} / ${xStart} / span ${yEnd}/ span ${xEnd}`
+    };
+
+    getCoordinates = (el, pattern, device, forOthers = false) => {
+
+        const position = {
+            yStart: forOthers ? pattern[0] : this.randomNum(this.dimension[device].rows - pattern.y, 1),
+            xStart: forOthers ? pattern[1] : this.randomNum(this.dimension[device].cols - pattern.x, 1),
+            yEnd: forOthers ? pattern[2] : pattern.y,
+            xEnd: forOthers ? pattern[3] : pattern.x,
+        }
+        const coordinates = [];
+        let rows = (position.yStart + position.yEnd) - position.yStart;
+        let cols = (position.xStart + position.xEnd) - position.xStart;
+
+        do {
+            let row = rows;
+            let col = cols;
 
             do {
-                let row = rows;
-                let col = cols;
+                coordinates.push([row + position.yStart, col + position.xStart]);
+                col--;
+            } while (col)
 
-                do {
-                    coordinates.push([row + position.yStart, col + position.xStart]);
-                    col--;
-                } while (col)
+            rows--;
+        } while (rows)
 
-                rows--;
-            } while (rows)
+        return {el, position, coordinates};
 
-            return {el, position, coordinates};
+    };
 
-        };
-
-        this.checkOverlap = (current) => {
-            return this.currentGrid.some(gridItem => {
-                return gridItem.coordinates.some(gridCoordinate => {
-                    return current.coordinates.some((currentCoordinate) => {
-                        return currentCoordinate[0] === gridCoordinate[0] && currentCoordinate[1] === gridCoordinate[1];
-                    })
+    checkOverlap = (current) => {
+        return this.currentGrid.some(gridItem => {
+            return gridItem.coordinates.some(gridCoordinate => {
+                return current.coordinates.some((currentCoordinate) => {
+                    return currentCoordinate[0] === gridCoordinate[0] && currentCoordinate[1] === gridCoordinate[1];
                 })
             })
+        })
+    };
+
+    resetImgPosition = () => {
+        this.currentGrid.forEach((item) => {
+            item.el.style.gridArea = "none";
+            item.el.classList.add("_hidden");
+        });
+        this.currentGrid = [];
+    };
+
+    setOthersElements = (device) => {
+        this.otherElements.forEach((el) => {
+            if (el.coordinates[device]) {
+                const current = this.getCoordinates(el.el, el.coordinates[device], device, true);
+                this.placeInGrid(current.el, current.position);
+                this.currentGrid.push(current);
+            }
+        })
+    };
+
+    updateSausagePattern = (pattern) => {
+        if (pattern.x === 1 && pattern.y > 2) {
+            pattern.y = this.randomNum(2, 1)
+        } else if (pattern.y === 1 && pattern.x > 2) {
+            pattern.x = this.randomNum(2, 1)
+        }
+    };
+
+    setPosition = async (el, device) => {
+        let remainingTries = this.maxTries;
+
+        const currentPattern = {
+            y: await this.randomNum(this.maxSize[device].y, 1),
+            x: await this.randomNum(this.maxSize[device].x, 1)
         };
 
-        this.resetImgPosition = () => {
-            this.currentGrid.forEach((item) => {
-                item.el.style.gridArea = "none";
-                item.el.classList.add("_hidden");
-            });
-            this.currentGrid = [];
+        if (this.noSausagePatterns) await this.updateSausagePattern(currentPattern);
+
+        let current = null;
+        let overlap = null;
+
+        const validatePosition = async () => {
+            current = this.getCoordinates(el, currentPattern, device);
+            return this.checkOverlap(current);
         }
 
-        this.setOthersElements = (device) => {
-            this.otherElements.forEach((el) => {
-                if (el.coordinates[device]) {
-                    const current = this.getCoordinates(el.el, el.coordinates[device], device, true);
-                    this.placeInGrid(current.el, current.position);
-                    this.currentGrid.push(current);
-                }
-            })
-        };
-
-        this.updateSausagePattern = (pattern) => {
-            if (pattern.x === 1 && pattern.y > 2) {
-                pattern.y = this.randomNum(2, 1)
-            } else if (pattern.y === 1 && pattern.x > 2) {
-                pattern.x = this.randomNum(2, 1)
+        do {
+            overlap = await validatePosition();
+            if (remainingTries < this.maxTries - 40) {
+                currentPattern.y = 2;
+                currentPattern.x = 2;
+            } else if (remainingTries < this.maxTries - 20) {
+                currentPattern.y = 1;
+                currentPattern.x = 1;
             }
-        }
+            remainingTries--;
+        } while (overlap && remainingTries)
 
-        this.setPosition = async (el, device) => {
-            let remainingTries = this.maxTries;
+        this.placeInGrid(current.el, current.position);
 
-            const currentPattern = {
-                y: await this.randomNum(this.maxSize[device].y, 1),
-                x: await this.randomNum(this.maxSize[device].x, 1)
-            };
+        this.currentGrid.push(current);
 
-            if (this.noSausagePatterns) await this.updateSausagePattern(currentPattern);
+    };
 
-            let current = null;
-            let overlap = null;
+    debounceDeviceChange = (delay) => {
+        let last = this.detectDevice();
+        let timeline = false;
 
-            const validatePosition = async () => {
-                current = this.getCoordinates(el, currentPattern, device);
-                return this.checkOverlap(current);
-            }
-
-            do {
-                overlap = await validatePosition();
-                if (remainingTries < this.maxTries - 40) {
-                    currentPattern.y = 2;
-                    currentPattern.x = 2;
-                } else if (remainingTries < this.maxTries - 20) {
-                    currentPattern.y = 1;
-                    currentPattern.x = 1;
-                }
-                remainingTries--;
-            } while (overlap && remainingTries)
-
-            this.placeInGrid(current.el, current.position);
-
-            this.currentGrid.push(current);
-
-        };
-
-        this.debounceDeviceChange = (delay) => {
-            let last = this.detectDevice();
-            let timeline = false;
-
-            return () => {
-                if (timeline) return;
-                timeline = true;
-
-                setTimeout(() => {
-                    const current = this.detectDevice();
-
-                    if (last === current) {
-                        timeline = false;
-                        return;
-                    }
-
-                    this.reCalcGrid(current).then(() => {
-                        timeline = false;
-                        last = current;
-                    })
-                }, delay)
-            }
-        };
-
-        this.updatePosition = async (device) => {
-            for (let i = 0; i < this.items.length; i++) {
-                if (i < this.maxItems[device]) {
-                    await this.setPosition(this.items[i], device);
-                    this.items[i].classList.remove("_hidden");
-                } else {
-                    if (i === this.maxItems[device]) this.nextToShow = i - 1;
-                    this.items[i].classList.add("_hidden");
-                }
-            }
-        };
-
-        this.reCalcGrid = async (device) => {
-            await this.setGrid(device)
-            await this.setOthersElements(device);
-            await this.updatePosition(device);
-        };
-
-        this.setMouseListeners = () => {
-            this.items.forEach((img) => {
-                img.addEventListener("mouseenter", (e) => {
-                    if (!e.currentTarget.classList.contains("js-hovered")) {
-                        e.currentTarget.classList.add("js-hovered");
-                        this.on.mouseEnter && this.on.mouseEnter(e);
-                    }
-                });
-
-                img.addEventListener("mouseleave", (e) => {
-                    if (e.currentTarget.classList.contains("js-hovered")) {
-                        e.currentTarget.classList.remove("js-hovered");
-                        this.on.mouseLeave && this.on.mouseLeave(e);
-                    }
-                });
-            })
-        }
-
-        this.switchItems = async (device, hovered, removingEl) => {
-            const isEqual = this.items.length === this.maxItems[device];
-            this.items.splice(hovered ? 1 : 0, 1);
-            const indexInGrid = this.currentGrid.findIndex((item) => item.el === removingEl);
-            indexInGrid && this.currentGrid.splice(indexInGrid, 1);
-            removingEl.classList.remove("_hidden-animation");
-            removingEl.classList.add("_hidden");
-            if (isEqual) {
-                await this.setPosition(removingEl, device);
-                removingEl.classList.remove("_hidden");
-            } else {
-                const nextEl = this.items.length === 0 ? removingEl : this.items[this.nextToShow];
-                await this.setPosition(nextEl, device);
-                nextEl.classList.remove("_hidden");
-            }
-
-            this.items.push(removingEl);
-        }
-
-
-        this.defaultAutoPlay = async () => {
-            const prevent = this.autoplay.preventDefaultHover;
-            const device = this.detectDevice();
-            const isHovered = prevent ? false : this.items[0].classList.contains("js-hovered");
-            const toRemove = isHovered ? this.items[1] : this.items[0];
-
-            if (!toRemove || isHovered && this.maxItems[device] < 2) return;
-
-            toRemove.classList.add("_hidden-animation");
+        return () => {
+            if (timeline) return;
+            timeline = true;
 
             setTimeout(() => {
-                toRemove.classList.remove("_hidden-animation");
-                if (toRemove.classList.contains("js-hovered") && !prevent) return;
-                this.switchItems(device, isHovered, toRemove);
-            }, this.autoplay.opacityDefaultOutDuration)
+                const current = this.detectDevice();
 
+                if (last === current) {
+                    timeline = false;
+                    return;
+                }
+
+                this.reCalcGrid(current).then(() => {
+                    timeline = false;
+                    last = current;
+                })
+            }, delay)
+        }
+    };
+
+    updatePosition = async (device) => {
+        for (let i = 0; i < this.items.length; i++) {
+            if (i < this.maxItems[device]) {
+                await this.setPosition(this.items[i], device);
+                this.items[i].classList.remove("_hidden");
+            } else {
+                if (i === this.maxItems[device]) this.nextToShow = i - 1;
+                this.items[i].classList.add("_hidden");
+            }
+        }
+    };
+
+    reCalcGrid = async (device) => {
+        await this.setGrid(device)
+        await this.setOthersElements(device);
+        await this.updatePosition(device);
+    };
+
+    setMouseListeners = () => {
+        this.items.forEach((img) => {
+            img.addEventListener("mouseenter", (e) => {
+                if (!e.currentTarget.classList.contains("js-hovered")) {
+                    e.currentTarget.classList.add("js-hovered");
+                    this.on.mouseEnter && this.on.mouseEnter(e);
+                }
+            });
+
+            img.addEventListener("mouseleave", (e) => {
+                if (e.currentTarget.classList.contains("js-hovered")) {
+                    e.currentTarget.classList.remove("js-hovered");
+                    this.on.mouseLeave && this.on.mouseLeave(e);
+                }
+            });
+        })
+    };
+
+    switchItems = async (device, hovered, removingEl) => {
+        const isEqual = this.items.length === this.maxItems[device];
+        this.items.splice(hovered ? 1 : 0, 1);
+        const indexInGrid = this.currentGrid.findIndex((item) => item.el === removingEl);
+        indexInGrid && this.currentGrid.splice(indexInGrid, 1);
+        removingEl.classList.remove("_hidden-animation");
+        removingEl.classList.add("_hidden");
+        if (isEqual) {
+            await this.setPosition(removingEl, device);
+            removingEl.classList.remove("_hidden");
+        } else {
+            const nextEl = this.items.length === 0 ? removingEl : this.items[this.nextToShow];
+            await this.setPosition(nextEl, device);
+            nextEl.classList.remove("_hidden");
         }
 
-        this.initAutoplay = () => {
-            if (!this.autoplay.delay || !this.items) return;
-            if (this.autoplay.effect === "default") this.autoplay.effect = this.defaultAutoPlay;
+        this.items.push(removingEl);
+    };
 
-            setInterval(async () => {
-                this.autoplay.effect();
-            }, this.autoplay.delay)
-        };
 
-        this.showInMosaic = () => {
-            this.container.classList.add("mosaic-init")
-        }
+    defaultAutoPlay = async () => {
+        const prevent = this.autoplay.preventDefaultHover;
+        const device = this.detectDevice();
+        const isHovered = prevent ? false : this.items[0].classList.contains("js-hovered");
+        const toRemove = isHovered ? this.items[1] : this.items[0];
 
-        this.beforeInit = async () => {
-            this.on.beforeInit && this.on.beforeInit();
-        }
+        if (!toRemove || isHovered && this.maxItems[device] < 2) return;
 
-        this.afterInit = async () => {
-            this.on.afterInit && this.on.afterInit();
-            this.showInMosaic();
-        }
+        toRemove.classList.add("_hidden-animation");
 
-        this.init = async (device) => {
-            if (this.items.length === 0) return;
-            await this.updateMaxItems();
-            await this.setOthersElements(device);
-            await this.createBgItems();
-            await this.initBgAnimation();
-            await this.setGrid(device, true);
-            await this.shuffleItems(this.items);
-            await this.updatePosition(device)
-            await this.initAutoplay()
-            this.setMouseListeners();
-            window.addEventListener("resize", this.debounceDeviceChange(500));
-        };
+        setTimeout(() => {
+            toRemove.classList.remove("_hidden-animation");
+            if (toRemove.classList.contains("js-hovered") && !prevent) return;
+            this.switchItems(device, isHovered, toRemove);
+        }, this.autoplay.opacityDefaultOutDuration)
 
-        this.start = async (device) => {
-            await this.beforeInit()
-            await this.init(device)
-            await this.afterInit()
-        }
+    };
 
-        this.start(this.detectDevice())
-    }
+    initAutoplay = () => {
+        if (!this.autoplay.delay || !this.items) return;
+        if (this.autoplay.effect === "default") this.autoplay.effect = this.defaultAutoPlay;
+
+        setInterval(async () => {
+            this.autoplay.effect();
+        }, this.autoplay.delay)
+    };
+
+    showInMosaic = () => {
+        this.container.classList.add("mosaic-init")
+    };
+
+    beforeInit = async () => {
+        this.on.beforeInit && this.on.beforeInit();
+    };
+
+    afterInit = async () => {
+        this.on.afterInit && this.on.afterInit();
+        this.showInMosaic();
+    };
+
+    init = async (device) => {
+        if (this.items.length === 0) return;
+        await this.updateMaxItems();
+        await this.setOthersElements(device);
+        await this.createBgItems();
+        await this.initBgAnimation();
+        await this.setGrid(device, true);
+        await this.shuffleItems(this.items);
+        await this.updatePosition(device)
+        await this.initAutoplay()
+        this.setMouseListeners();
+        window.addEventListener("resize", this.debounceDeviceChange(500));
+    };
+
+    start = async (device) => {
+        await this.beforeInit()
+        await this.init(device)
+        await this.afterInit()
+    };
+
 
 };
