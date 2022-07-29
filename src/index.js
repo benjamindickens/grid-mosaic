@@ -130,7 +130,7 @@ export default class {
         this.setBgItems(device);
     };
 
-    createBgItems = async () => {
+    createBgItems = () => {
         if (!this.bg) return;
 
         if (this.bgStyles.background) document.documentElement.style.setProperty('--mosaic-default-bg-color', this.bgStyles.background);
@@ -249,26 +249,26 @@ export default class {
         }
     };
 
-    setPosition = async (el, device) => {
+    setPosition = (el, device) => {
         let remainingTries = this.maxTries;
 
         const currentPattern = {
-            y: await this.randomNum(this.maxSize[device].y, 1),
-            x: await this.randomNum(this.maxSize[device].x, 1)
+            y: this.randomNum(this.maxSize[device].y, 1),
+            x: this.randomNum(this.maxSize[device].x, 1)
         };
 
-        if (this.noSausagePatterns) await this.updateSausagePattern(currentPattern);
+        if (this.noSausagePatterns) this.updateSausagePattern(currentPattern);
 
         let current = null;
         let overlap = null;
 
-        const validatePosition = async () => {
+        const validatePosition = () => {
             current = this.getCoordinates(el, currentPattern, device);
             return this.checkOverlap(current);
         }
 
         do {
-            overlap = await validatePosition();
+            overlap = validatePosition();
             if (remainingTries < this.maxTries - 40) {
                 currentPattern.y = 2;
                 currentPattern.x = 2;
@@ -301,18 +301,18 @@ export default class {
                     return;
                 }
 
-                this.reCalcGrid(current).then(() => {
-                    timeline = false;
-                    last = current;
-                })
+                this.reCalcGrid(current);
+                timeline = false;
+                last = current;
+
             }, delay)
         }
     };
 
-    updatePosition = async (device) => {
+    updatePosition = (device) => {
         for (let i = 0; i < this.items.length; i++) {
             if (i < this.maxItems[device]) {
-                await this.setPosition(this.items[i], device);
+                this.setPosition(this.items[i], device);
                 this.items[i].classList.remove("_hidden");
             } else {
                 if (i === this.maxItems[device]) this.nextToShow = i - 1;
@@ -321,10 +321,10 @@ export default class {
         }
     };
 
-    reCalcGrid = async (device) => {
-        await this.setGrid(device)
-        await this.setOthersElements(device);
-        await this.updatePosition(device);
+    reCalcGrid = (device) => {
+        this.setGrid(device)
+        this.setOthersElements(device);
+        this.updatePosition(device);
     };
 
     setMouseListeners = () => {
@@ -345,7 +345,7 @@ export default class {
         })
     };
 
-    switchItems = async (device, hovered, removingEl) => {
+    switchItems = (device, hovered, removingEl) => {
         const isEqual = this.items.length === this.maxItems[device];
         this.items.splice(hovered ? 1 : 0, 1);
         const indexInGrid = this.currentGrid.findIndex((item) => item.el === removingEl);
@@ -353,11 +353,11 @@ export default class {
         removingEl.classList.remove("_hidden-animation");
         removingEl.classList.add("_hidden");
         if (isEqual) {
-            await this.setPosition(removingEl, device);
+            this.setPosition(removingEl, device);
             removingEl.classList.remove("_hidden");
         } else {
             const nextEl = this.items.length === 0 ? removingEl : this.items[this.nextToShow];
-            await this.setPosition(nextEl, device);
+            this.setPosition(nextEl, device);
             nextEl.classList.remove("_hidden");
         }
 
@@ -365,7 +365,7 @@ export default class {
     };
 
 
-    defaultAutoPlay = async () => {
+    defaultAutoPlay = () => {
         const prevent = this.autoplay.preventDefaultHover;
         const device = this.detectDevice();
         const isHovered = prevent ? false : this.items[0].classList.contains("js-hovered");
@@ -387,7 +387,7 @@ export default class {
         if (!this.autoplay.delay || !this.items) return;
         if (this.autoplay.effect === "default") this.autoplay.effect = this.defaultAutoPlay;
 
-        setInterval(async () => {
+        setInterval(() => {
             this.autoplay.effect();
         }, this.autoplay.delay)
     };
@@ -396,33 +396,33 @@ export default class {
         this.container.classList.add("mosaic-init")
     };
 
-    beforeInit = async () => {
+    beforeInit = () => {
         this.on.beforeInit && this.on.beforeInit();
     };
 
-    afterInit = async () => {
+    afterInit = () => {
         this.on.afterInit && this.on.afterInit();
         this.showInMosaic();
     };
 
-    init = async (device) => {
+    init = (device) => {
         if (this.items.length === 0) return;
-        await this.updateMaxItems();
-        await this.setOthersElements(device);
-        await this.createBgItems();
-        await this.initBgAnimation();
-        await this.setGrid(device, true);
-        await this.shuffleItems(this.items);
-        await this.updatePosition(device)
-        await this.initAutoplay()
+        this.updateMaxItems();
+        this.setOthersElements(device);
+        this.createBgItems();
+        this.initBgAnimation();
+        this.setGrid(device, true);
+        this.shuffleItems(this.items);
+        this.updatePosition(device)
+        this.initAutoplay()
         this.setMouseListeners();
         window.addEventListener("resize", this.debounceDeviceChange(500));
     };
 
-    start = async (device) => {
-        await this.beforeInit()
-        await this.init(device)
-        await this.afterInit()
+    start = (device) => {
+        this.beforeInit()
+        this.init(device)
+        this.afterInit()
     };
 
 
